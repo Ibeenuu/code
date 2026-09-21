@@ -1,0 +1,39 @@
+import pandas as pd
+import numpy as np
+import re
+
+pd.set_option("display.max_columns", None)
+
+# =========================================================
+# 1. DATA LOADING & INSPECTION
+# =========================================================
+df = pd.read_csv("dataset_penjualan_kantin.csv")
+
+print("=== HEAD ===")
+print(df.head())
+
+print("\n=== INFO ===")
+print(df.info())
+
+print("\n=== DESCRIBE ===")
+print(df.describe(include="all"))
+
+print("\n=== SHAPE ===")
+print(df.shape)
+
+print("\n=== MISSING VALUE ===")
+print(df.isna().sum())
+
+print("\n=== DUPLIKAT ===")
+print("Jumlah baris duplikat:", df.duplicated().sum())
+print(df[df.duplicated(keep=False)].sort_values("id_transaksi"))
+
+print("\n=== NILAI UNIK ===")
+for kolom in ["kategori", "nama_produk", "nama_kasir", "metode_pembayaran",
+              "tanggal", "jumlah_terjual", "harga_satuan"]:
+    print(kolom, ":", df[kolom].dropna().astype(str).unique().tolist())
+
+# =========================================================
+# 2. DATA CLEANING
+# =========================================================
+df_bersih = df.copy()
